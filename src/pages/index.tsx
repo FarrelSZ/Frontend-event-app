@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Button } from "@heroui/button";
 import PageHead from "@/components/commons/PageHead";
+import { useRouter } from "next/router";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,13 +15,16 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div
       className={`${geistSans.className} ${geistMono.className} font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}
     >
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <PageHead />
-        <Button color="danger">heroui</Button>
+        <Button color="danger" variant="bordered" onPress={() => router.push("/auth/register")}>
+          heroui
+        </Button>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a
