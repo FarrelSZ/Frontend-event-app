@@ -2,11 +2,11 @@ import PageHead from "@/components/commons/PageHead";
 import { ReactNode } from "react";
 
 interface PropTypes {
-  title?: string;
   children: ReactNode;
+  title?: string;
 }
 
-const AuthLayout = ({ title, children }: PropTypes) => {
+const AuthLayout = ({ children, title }: PropTypes) => {
   // Bisa juga begini: const { title, children } = props. nanti kalo gitu di parameter nya jadi nya (props: PropTypes)
   return (
     <>
