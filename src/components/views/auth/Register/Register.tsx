@@ -27,8 +27,8 @@ const Register = () => {
       <div>
         <Card>
           <CardBody className="p-8">
-            <h2 className="text-xl font-bold text-danger-500">Create Account</h2>
-            <p className="mb-4 text-small">
+            <h2 className="text-2xl font-bold text-danger-500">Create Account</h2>
+            <p className="mb-4 mt-2 text-small">
               Have an account?&nbsp;
               <Link href="/auth/login" className="font-semibold text-danger-400">
                 Login here
@@ -40,7 +40,7 @@ const Register = () => {
               onSubmit={handleSubmit(handleRegister)}
             >
               <Controller
-                name="fullName"
+                name="fullname"
                 control={control}
                 render={({ field }) => (
                   <Input
@@ -49,8 +49,8 @@ const Register = () => {
                     label="Full Name"
                     variant="bordered"
                     autoComplete="off"
-                    isInvalid={errors.fullName !== undefined}
-                    errorMessage={errors.fullName?.message}
+                    isInvalid={errors.fullname !== undefined}
+                    errorMessage={errors.fullname?.message}
                   />
                 )}
               />
@@ -103,7 +103,7 @@ const Register = () => {
                         className="focus:outline-solid outline-transparent"
                         onClick={() => toggleVisibility("password")}
                       >
-                        {isVisible ? (
+                        {isVisible.password ? (
                           <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
                         ) : (
                           <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
@@ -132,7 +132,7 @@ const Register = () => {
                         className="focus:outline-solid outline-transparent"
                         onClick={() => toggleVisibility("confirmPassword")}
                       >
-                        {isVisible ? (
+                        {isVisible.confirmPassword ? (
                           <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
                         ) : (
                           <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
