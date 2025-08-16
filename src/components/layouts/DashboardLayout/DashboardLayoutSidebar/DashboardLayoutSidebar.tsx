@@ -2,9 +2,9 @@ import { cn } from "@/utils/cn";
 import { Button, Listbox, ListboxItem } from "@heroui/react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { JSX, useState } from "react";
-import { CiLogout } from "react-icons/ci";
+import { JSX } from "react";
 
 interface SidebarItem {
   key: string;
@@ -19,17 +19,6 @@ interface PropTypes {
 
 const DashboardLayoutSidebar = ({ sidebarItem, isOpen }: PropTypes) => {
   const router = useRouter();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const handleSignOut = async () => {
-    try {
-      setIsLoggingOut(true);
-
-      await signOut();
-    } catch (error) {
-      console.error("Error during sign out:", error);
-      setIsLoggingOut(false);
-    }
-  };
 
   return (
     <div
@@ -63,6 +52,7 @@ const DashboardLayoutSidebar = ({ sidebarItem, isOpen }: PropTypes) => {
               textValue={item.label}
               aria-labelledby={item.label}
               aria-describedby={item.label}
+              as={Link}
             >
               <p className="text-small">{item.label}</p>
             </ListboxItem>
@@ -76,13 +66,8 @@ const DashboardLayoutSidebar = ({ sidebarItem, isOpen }: PropTypes) => {
           variant="light"
           className="flex justify-start rounded-lg px-2 py-1.5"
           size="lg"
-          onPress={handleSignOut}
-          isLoading={isLoggingOut}
-          disabled={isLoggingOut}
-        >
-          {!isLoggingOut && <CiLogout />}
-          {isLoggingOut ? "Logging out..." : "Logout"}
-        </Button>
+          onPress={() => signOut()}
+        ></Button>
       </div>
     </div>
   );
