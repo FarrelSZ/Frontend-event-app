@@ -1,4 +1,4 @@
-import LIMIT_LIST from "@/constant/list.constants";
+import { LIMIT_LIST } from "@/constant/list.constants";
 import { cn } from "@/utils/cn";
 import {
   Button,
@@ -14,7 +14,6 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import { base } from "framer-motion/client";
 import { ChangeEvent, Key, ReactNode, useMemo } from "react";
 import { CiSearch } from "react-icons/ci";
 
@@ -73,7 +72,7 @@ const DataTable = ({
 
   const buttonContent = useMemo(() => {
     return (
-      <div className="flex items-center justify-center px2 py-2 lg:justify-between">
+      <div className="flex items-center justify-center lg:justify-between">
         <Select
           className="hidden max-w-36 lg:block"
           size="md"
@@ -81,20 +80,24 @@ const DataTable = ({
           selectionMode="single"
           onChange={onChangeLimit}
           startContent={<p className="text-small">Show:</p>}
+          disallowEmptySelection
         >
           {LIMIT_LIST.map((item) => (
             <SelectItem key={item.value}>{item.label}</SelectItem>
           ))}
         </Select>
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="danger"
-          page={currentPage}
-          total={totalPages}
-          onChange={onChangePage}
-        />
+        {totalPages > 1 && (
+          <Pagination
+            isCompact
+            showControls
+            showShadow
+            color="danger"
+            page={currentPage}
+            total={totalPages}
+            onChange={onChangePage}
+            loop
+          />
+        )}
       </div>
     );
   }, [limit, onChangeLimit, currentPage, totalPages, onChangePage]);
@@ -115,7 +118,7 @@ const DataTable = ({
       </TableHeader>
       <TableBody
         emptyContent={emptyContent}
-        isLoading={isLoading}
+        // isLoading={isLoading}
         items={data}
         loadingContent={
           <div className="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-50">
