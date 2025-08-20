@@ -5,7 +5,7 @@ import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constant";
 import useCategory from "./useCategory";
-import Inputfile from "@/components/ui/inputFile";
+import Inputfile from "@/components/ui/InputFile";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();

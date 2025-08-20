@@ -1,31 +1,31 @@
-import { ILogin } from "@/types/Auth";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useContext, useState } from "react";
 import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ILogin } from "@/types/Auth";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 const loginSchema = yup.object().shape({
-  identifier: yup.string().required("Email / Username is required"),
-  password: yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+  identifier: yup.string().required("Please input your email or password"),
+  password: yup.string().required("Please input your password"),
 });
 
 const useLogin = () => {
   const router = useRouter();
-
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const { setToaster } = useContext(ToasterContext);
 
-  const callbackUrl: string = (router.query.callbackUrl as string) || "/";
+  const callbackUrl: string = router.query.callbackUrl as string;
 
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
-    setError,
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
@@ -34,23 +34,28 @@ const useLogin = () => {
     const result = await signIn("credentials", {
       ...payload,
       redirect: false,
-      callbackUrl: callbackUrl,
+      callbackUrl,
     });
-    if (result?.error && result.status === 401) throw new Error("Login failed");
-
-    return result;
+    if (result?.error && result?.status === 401) {
+      throw new Error("Login Failed");
+    }
   };
 
   const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({
     mutationFn: loginService,
-    onError(error) {
-      setError("root", {
-        message: error.message,
+    onError: () => {
+      setToaster({
+        type: "error",
+        message: "Your credential is wrong",
       });
     },
     onSuccess: () => {
-      router.push(callbackUrl);
       reset();
+      setToaster({
+        type: "success",
+        message: "Login success",
+      });
+      router.push(callbackUrl);
     },
   });
 
@@ -60,10 +65,10 @@ const useLogin = () => {
     isVisible,
     toggleVisibility,
     control,
-    handleLogin,
     handleSubmit,
-    errors,
+    handleLogin,
     isPendingLogin,
+    errors,
   };
 };
 
