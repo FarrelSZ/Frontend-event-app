@@ -1,6 +1,5 @@
-import { error } from "console";
 import { ReactNode } from "react";
-import { CiCircleAlert, CiCircleCheck, CiCircleRemove } from "react-icons/ci";
+import { CiCircleCheck, CiCircleRemove } from "react-icons/ci";
 
 const iconList: { [key: string]: ReactNode } = {
   success: <CiCircleCheck className="text-3xl text-success-500" />,
@@ -12,7 +11,7 @@ interface PropTypes {
   message: string;
 }
 
-const Toaster = ({ type, message }) => {
+const Toaster = ({ type, message }: PropTypes) => {
   return (
     <div
       role="alert"

@@ -48,6 +48,7 @@ export default NextAuth({
       if (user) {
         token.user = user;
       }
+
       return token;
     },
     async session({ session, token }: { session: SessionExtended; token: JWTExtended }) {

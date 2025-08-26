@@ -18,33 +18,33 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // if (pathname.startsWith("/admin")) {
-  //   if (!token) {
-  //     const url = new URL("/auth/login", request.url);
-  //     url.searchParams.set("callbackUrl", encodeURI(request.url));
-  //     return NextResponse.redirect(url);
-  //   }
+  if (pathname.startsWith("/admin")) {
+    if (!token) {
+      const url = new URL("/auth/login", request.url);
+      url.searchParams.set("callbackUrl", encodeURI(request.url));
+      return NextResponse.redirect(url);
+    }
 
-  //   if (token?.user?.role !== "admin") {
-  //     return NextResponse.redirect(new URL("/", request.url));
-  //   }
+    if (token?.user?.role !== "admin") {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
 
-  //   if (pathname === "/admin") {
-  //     return NextResponse.redirect(new URL("/admin/event", request.url));
-  //   }
-  // }
+    if (pathname === "/admin") {
+      return NextResponse.redirect(new URL("/admin/event", request.url));
+    }
+  }
 
-  // if (pathname.startsWith("/member")) {
-  //   if (!token) {
-  //     const url = new URL("/auth/login", request.url);
-  //     url.searchParams.set("callbackUrl", encodeURI(request.url));
-  //     return NextResponse.redirect(url);
-  //   }
+  if (pathname.startsWith("/member")) {
+    if (!token) {
+      const url = new URL("/auth/login", request.url);
+      url.searchParams.set("callbackUrl", encodeURI(request.url));
+      return NextResponse.redirect(url);
+    }
 
-  //   if (pathname === "/member") {
-  //     return NextResponse.redirect(new URL("/member/profile", request.url));
-  //   }
-  // }
+    if (pathname === "/member") {
+      return NextResponse.redirect(new URL("/member/profile", request.url));
+    }
+  }
 }
 
 export const config = {

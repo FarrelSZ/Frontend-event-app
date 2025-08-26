@@ -5,4 +5,8 @@ interface ICategory {
   icon?: string | FileList;
 }
 
-export type { ICategory };
+interface ICategoryForm extends ICategory {
+  icon: FileList;
+}
+
+export type { ICategory, ICategoryForm };

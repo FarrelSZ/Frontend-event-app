@@ -1,4 +1,5 @@
-import { LIMIT_LIST } from "@/constant/list.constants";
+import { LIMIT_LISTS } from "@/constant/list.constants";
+import useChangeUrl from "@/hooks/useChangeUrl";
 import { cn } from "@/utils/cn";
 import {
   Button,
@@ -14,53 +15,51 @@ import {
   TableHeader,
   TableRow,
 } from "@heroui/react";
-import { ChangeEvent, Key, ReactNode, useMemo } from "react";
+import { Key, ReactNode, useMemo } from "react";
 import { CiSearch } from "react-icons/ci";
 
 interface PropTypes {
   buttonTopContentLabel?: string;
   columns: Record<string, unknown>[];
-  currentPage: number;
   data: Record<string, unknown>[];
   emptyContent: string;
   isLoading?: boolean;
-  limit: string;
-  onChangeLimit: (e: ChangeEvent<HTMLSelectElement>) => void;
-  onChangeSearch: (e: ChangeEvent<HTMLInputElement>) => void;
-  onChangePage: (page: number) => void;
-  onClearSearch: () => void;
   onClickButtonTopContent?: () => void;
   renderCell: (item: Record<string, unknown>, columnKey: Key) => ReactNode;
+  showLimit?: boolean;
+  showSearch?: boolean;
   totalPages: number;
 }
 
-const DataTable = ({
-  buttonTopContentLabel,
-  columns,
-  currentPage,
-  data,
-  emptyContent,
-  isLoading,
-  limit,
-  onChangeLimit,
-  onChangePage,
-  onChangeSearch,
-  onClearSearch,
-  onClickButtonTopContent,
-  renderCell,
-  totalPages,
-}: PropTypes) => {
-  const topContent = useMemo(() => {
+const DataTable = (props: PropTypes) => {
+  const { currentLimit, currentPage, handleChangeLimit, handleChangePage, handleSearch, handleClearSearch } =
+    useChangeUrl();
+  const {
+    buttonTopContentLabel,
+    columns,
+    data,
+    emptyContent,
+    isLoading,
+    onClickButtonTopContent,
+    renderCell,
+    showLimit = true,
+    showSearch = true,
+    totalPages,
+  } = props;
+
+  const TopContent = useMemo(() => {
     return (
       <div className="flex flex-col-reverse items-start justify-between gap-y-4 lg:flex-row lg:items-center">
-        <Input
-          isClearable
-          className="w-full sm:max-w-[24%]"
-          placeholder="Search by name"
-          startContent={<CiSearch />}
-          onClear={onClearSearch}
-          onChange={onChangeSearch}
-        />
+        {showSearch && (
+          <Input
+            isClearable
+            className="w-full sm:max-w-[24%]"
+            placeholder="Search by name"
+            startContent={<CiSearch />}
+            onClear={handleClearSearch}
+            onChange={handleSearch}
+          />
+        )}
         {buttonTopContentLabel && (
           <Button color="danger" onPress={onClickButtonTopContent}>
             {buttonTopContentLabel}
@@ -68,61 +67,63 @@ const DataTable = ({
         )}
       </div>
     );
-  }, [buttonTopContentLabel, onChangeSearch, onClearSearch, onClickButtonTopContent]);
+  }, [buttonTopContentLabel, handleSearch, handleClearSearch, onClickButtonTopContent]);
 
-  const buttonContent = useMemo(() => {
+  const BottomContent = useMemo(() => {
     return (
       <div className="flex items-center justify-center lg:justify-between">
-        <Select
-          className="hidden max-w-36 lg:block"
-          size="md"
-          selectedKeys={[limit]}
-          selectionMode="single"
-          onChange={onChangeLimit}
-          startContent={<p className="text-small">Show:</p>}
-          disallowEmptySelection
-        >
-          {LIMIT_LIST.map((item) => (
-            <SelectItem key={item.value}>{item.label}</SelectItem>
-          ))}
-        </Select>
+        {showLimit && (
+          <Select
+            className="hidden max-w-36 lg:block"
+            size="md"
+            selectedKeys={[`${currentLimit}`]}
+            selectionMode="single"
+            onChange={handleChangeLimit}
+            startContent={<p className="text-small">Show:</p>}
+            disallowEmptySelection
+          >
+            {LIMIT_LISTS.map((item) => (
+              <SelectItem key={item.value}>{item.label}</SelectItem>
+            ))}
+          </Select>
+        )}
         {totalPages > 1 && (
           <Pagination
             isCompact
             showControls
-            showShadow
             color="danger"
-            page={currentPage}
+            page={Number(currentPage)}
             total={totalPages}
-            onChange={onChangePage}
+            onChange={handleChangePage}
             loop
           />
         )}
       </div>
     );
-  }, [limit, onChangeLimit, currentPage, totalPages, onChangePage]);
+  }, [currentLimit, currentPage, totalPages, handleChangeLimit, handleChangePage]);
 
   return (
     <Table
-      topContent={topContent}
-      topContentPlacement="outside"
-      bottomContent={buttonContent}
+      bottomContent={BottomContent}
       bottomContentPlacement="outside"
       classNames={{
         base: "max-w-full",
         wrapper: cn({ "overflow-x-hidden": isLoading }),
       }}
+      topContent={TopContent}
+      topContentPlacement="outside"
     >
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.uid as Key}>{column.name as string}</TableColumn>}
       </TableHeader>
+
       <TableBody
         emptyContent={emptyContent}
-        // isLoading={isLoading}
+        isLoading={isLoading}
         items={data}
         loadingContent={
-          <div className="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-50">
-            <Spinner color="danger" size="lg" />
+          <div className="flex h-full w-full items-center justify-center bg-foreground-700/30 backdrop-blur-sm">
+            <Spinner color="danger" />
           </div>
         }
       >

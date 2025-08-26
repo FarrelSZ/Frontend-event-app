@@ -13,7 +13,6 @@ const instance = axios.create({
   timeout: 60 * 1000,
 });
 
-// untuk mengintercept request dan response sebelum di handle
 instance.interceptors.request.use(
   async (request) => {
     const session: SessionExtended | null = await getSession();
@@ -22,12 +21,9 @@ instance.interceptors.request.use(
     }
     return request;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// untuk response
 instance.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject(error)
