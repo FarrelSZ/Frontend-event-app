@@ -1,5 +1,4 @@
-import { CiBookmark, CiGrid41, CiSettings, CiShoppingTag, CiWallet } from "react-icons/ci";
-import { MdEvent } from "react-icons/md";
+import { CiBookmark, CiGrid41, CiSettings, CiShoppingTag, CiViewList, CiWallet } from "react-icons/ci";
 
 const SIDEBAR_MEMBER = [
   {
@@ -30,22 +29,10 @@ const SIDEBAR_ADMIN = [
     icon: <CiGrid41 />,
   },
   {
-    key: "transaction",
-    label: "Transaction",
-    href: "/admin/transaction",
-    icon: <CiWallet />,
-  },
-  {
-    key: "setting",
-    label: "Setting",
-    href: "/admin/setting",
-    icon: <CiSettings />,
-  },
-  {
     key: "event",
     label: "Event",
     href: "/admin/event",
-    icon: <MdEvent />,
+    icon: <CiViewList />,
   },
   {
     key: "category",
@@ -58,6 +45,12 @@ const SIDEBAR_ADMIN = [
     label: "Banner",
     href: "/admin/banner",
     icon: <CiBookmark />,
+  },
+  {
+    key: "transaction",
+    label: "Transaction",
+    href: "/admin/transaction",
+    icon: <CiWallet />,
   },
 ];
 
