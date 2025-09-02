@@ -9,7 +9,6 @@ import {
   Spinner,
   Textarea,
 } from "@heroui/react";
-
 import useAddCategoryModal from "./useAddCategoryModal";
 import { Controller } from "react-hook-form";
 import InputFile from "@/components/ui/InputFile";
@@ -22,7 +21,8 @@ interface PropTypes {
   refetchCategory: () => void;
 }
 
-const AddCategoryModal = ({ isOpen, onClose, onOpenChange, refetchCategory }: PropTypes) => {
+const AddCategoryModal = (props: PropTypes) => {
+  const { isOpen, onClose, onOpenChange, refetchCategory } = props;
   const {
     control,
     errors,
@@ -95,7 +95,7 @@ const AddCategoryModal = ({ isOpen, onClose, onOpenChange, refetchCategory }: Pr
               <Controller
                 name="icon"
                 control={control}
-                render={({ field: { onChange, ...field } }) => (
+                render={({ field: { onChange, value, ...field } }) => (
                   <InputFile
                     {...field}
                     onDelete={() => handleDeleteIcon(onChange)}

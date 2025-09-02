@@ -7,6 +7,8 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownAction from "@/components/commons/DropdownAction";
 import useEvent from "./useEvent";
 import { COLUMN_LISTS_EVENT } from "./Event.constants";
+import AddEventModal from "./AddEventModal";
+import DeleteEventModal from "./DeleteEventModal";
 
 const Event = () => {
   const { push, isReady, query } = useRouter();
@@ -78,13 +80,13 @@ const Event = () => {
           totalPages={dataEvents?.pagination.totalPages}
         />
       )}
-      {/* <AddCategoryModal {...addCategoryModal} refetchCategory={refetchCategory} />
-      <DeleteCategoryModal
-        {...deleteCategoryModal}
+      <AddEventModal {...addEventModal} refetchEvents={refetchEvents} />
+      <DeleteEventModal
+        {...deleteEventModal}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
-        refetchCategory={refetchCategory}
-      /> */}
+        refetchEvent={refetchEvents}
+      />
     </section>
   );
 };
