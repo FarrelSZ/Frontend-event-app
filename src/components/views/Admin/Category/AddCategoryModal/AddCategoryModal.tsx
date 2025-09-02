@@ -9,9 +9,9 @@ import {
   Spinner,
   Textarea,
 } from "@heroui/react";
-import useAddCategoryModal from "./useAddCategoryModal";
 import { Controller } from "react-hook-form";
 import InputFile from "@/components/ui/InputFile";
+import useAddCategoryModal from "./useAddCategoryModal";
 import { useEffect } from "react";
 
 interface PropTypes {
@@ -21,8 +21,7 @@ interface PropTypes {
   refetchCategory: () => void;
 }
 
-const AddCategoryModal = (props: PropTypes) => {
-  const { isOpen, onClose, onOpenChange, refetchCategory } = props;
+const AddCategoryModal = ({ isOpen, onClose, onOpenChange, refetchCategory }: PropTypes) => {
   const {
     control,
     errors,
