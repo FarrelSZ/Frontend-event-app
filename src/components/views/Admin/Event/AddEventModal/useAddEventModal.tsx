@@ -12,7 +12,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { ZonedDateTime } from "@internationalized/date";
 
 const schema = yup.object().shape({
   name: yup.string().required("Please input name"),
@@ -139,14 +138,12 @@ const useAddEventModal = () => {
     isPendingMutateAddEvent,
     isSuccessMutateAddEvent,
     setValue,
-
     preview,
     handleUploadBanner,
     isPendingMutateUploadFile,
     handleDeleteBanner,
     isPendingMutateDeleteFile,
     handleOnClose,
-
     dataCategory,
     dataRegion,
     searchRegency,
