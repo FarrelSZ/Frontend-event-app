@@ -4,8 +4,9 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { JSX } from "react";
+import { JSX, useState } from "react";
 import { CiLogout } from "react-icons/ci";
+import { TbLoader2 } from "react-icons/tb";
 
 interface SidebarItem {
   key: string;
@@ -20,6 +21,16 @@ interface PropTypes {
 
 const DashboardLayoutSidebar = ({ sidebarItem, isOpen }: PropTypes) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const handleLogout = async () => {
+    setIsLoading(true);
+    try {
+      await Promise.all([signOut({ callbackUrl: "/auth/login" }), new Promise((resolve) => setTimeout(resolve, 2000))]);
+    } catch (error) {
+      console.error("Logout failed:", error);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div
@@ -66,11 +77,21 @@ const DashboardLayoutSidebar = ({ sidebarItem, isOpen }: PropTypes) => {
           fullWidth
           variant="light"
           className="flex justify-start rounded-lg px-2 py-1.5"
+          disabled={isLoading}
           size="lg"
-          onPress={() => signOut({ callbackUrl: "/auth/login" })}
+          onPress={handleLogout}
         >
-          <CiLogout />
-          Logout
+          {isLoading ? (
+            <div className="relative">
+              <TbLoader2 className="w-5 h-5 animate-spin text-red-500" />
+              <div className="absolute inset-0 w-5 h-5 border border-red-300 border-t-red-500 rounded-full animate-pulse"></div>
+            </div>
+          ) : (
+            <CiLogout className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
+          )}
+          <span className={`transition-transform duration-300 ${isLoading ? "" : "group-hover:translate-x-1"}`}>
+            {isLoading ? "Please wait..." : "Logout"}
+          </span>
         </Button>
       </div>
     </div>

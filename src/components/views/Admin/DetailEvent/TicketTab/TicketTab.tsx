@@ -2,16 +2,21 @@ import DropdownAction from "@/components/commons/DropdownAction";
 import DataTable from "@/components/ui/DataTable";
 import { convertIDR } from "@/utils/currency";
 import { Button, Card, CardBody, CardHeader, useDisclosure } from "@heroui/react";
-import { Fragment, Key, ReactNode, useCallback } from "react";
+import { Fragment, Key, ReactNode, useCallback, useState } from "react";
 import { COLUMN_LISTS_TICKET } from "./TicketTab.constant";
 import useTicketTab from "./useTicketTab";
 import AddTicketModal from "./AddTicketModal";
+import DeleteTicketModal from "./DeleteTicketModal";
+import { ITicket } from "@/types/Ticket";
+import UpdateTicketModal from "./UpdateTicketModal";
 
 const TicketTab = () => {
   const { dataTicket, refetchTicket, isPendingTicket, isRefetchingTicket } = useTicketTab();
   const addTicketModal = useDisclosure();
   const deleteTicketModal = useDisclosure();
   const updateTicketModal = useDisclosure();
+
+  const [selectedDataTicket, setSelectedDataTicket] = useState<ITicket | null>(null);
 
   const renderCell = useCallback((ticket: Record<string, unknown>, columnKey: Key) => {
     const cellValue = ticket[columnKey as keyof typeof ticket];
@@ -23,9 +28,11 @@ const TicketTab = () => {
         return (
           <DropdownAction
             onPressButtonDetail={() => {
+              setSelectedDataTicket(ticket as ITicket);
               updateTicketModal.onOpen();
             }}
             onPressButtonDelete={() => {
+              setSelectedDataTicket(ticket as ITicket);
               deleteTicketModal.onOpen();
             }}
           />
@@ -61,6 +68,18 @@ const TicketTab = () => {
         </CardBody>
       </Card>
       <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
+      <DeleteTicketModal
+        {...deleteTicketModal}
+        refetchTicket={refetchTicket}
+        selectedDataTicket={selectedDataTicket}
+        setSelectedDataTicket={setSelectedDataTicket}
+      />
+      <UpdateTicketModal
+        {...updateTicketModal}
+        refetchTicket={refetchTicket}
+        selectedDataTicket={selectedDataTicket}
+        setSelectedDataTicket={setSelectedDataTicket}
+      />
     </Fragment>
   );
 };
