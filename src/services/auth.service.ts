@@ -15,5 +15,8 @@ const authServices = {
         Authorization: `Bearer ${token}`,
       },
     }),
+  getProfile: () => instance.get(`${endpoint.AUTH}/me`),
+  // updateProfile: (payload: IProfile) => instance.put(`${endpoint.AUTH}/update-profile`, payload),
+  // updatePassword: (payload: IUpdatePassword) => instance.put(`${endpoint.AUTH}/update-password`, payload),
 };
 export default authServices;
