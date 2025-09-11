@@ -31,7 +31,7 @@ const LandingPageLayoutNavbar = () => {
   const { dataProfile } = useLandingPageLayoutNavbar();
 
   return (
-    <Navbar maxWidth="full" className="max-w-screen-3xl 3xl:container" isBordered isBlurred={false} shouldHideOnScroll>
+    <Navbar maxWidth="full" isBordered isBlurred={false} shouldHideOnScroll>
       <NavbarBrand as={Link} href="/">
         <Image src="/images/general/logo.svg" width={100} height={50} alt="logo" className="cursor-pointer" />
       </NavbarBrand>
@@ -119,14 +119,24 @@ const LandingPageLayoutNavbar = () => {
           {session.status === "authenticated" ? (
             <Fragment>
               <NavbarMenuItem
+                as={Link}
+                href="/admin/dashboard"
                 className={cn("font-medium text-default-700 hover:text-danger", {
                   hidden: dataProfile?.role !== "admin",
                 })}
               >
-                <Link href="/admin/dashboard">Admin</Link>
+                <Link href="/admin/event" className="font-medium text-default-700 hover:text-danger">
+                  Admin
+                </Link>
               </NavbarMenuItem>
-              <NavbarMenuItem className="font-medium text-default-700 hover:text-danger">
-                <Link href="/member/profile">Admin</Link>
+              <NavbarMenuItem
+                as={Link}
+                href="/member/profile"
+                className="font-medium text-default-700 hover:text-danger"
+              >
+                <Link className="font-medium text-default-700 hover:text-danger" href="/member/profile">
+                  Profile
+                </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
                 <Button onPress={() => signOut()} color="danger" className="mt-2 w-full " variant="bordered" size="lg">
