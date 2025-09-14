@@ -79,6 +79,7 @@ const LandingPageLayoutNavbar = () => {
             <Listbox
               items={dataEventsSearch?.data || []}
               className="absolute right-0 top-12 rounded-xl border bg-white"
+              onAction={(key) => alert(key)}
             >
               {!isRefetchingEventsSearch && !isLoadingEventsSearch ? (
                 (item: IEvent) => (
