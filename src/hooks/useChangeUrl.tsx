@@ -112,13 +112,11 @@ const useChangeUrl = () => {
     currentLimit,
     currentPage,
     currentSearch,
-
     setUrl,
     handleChangePage,
     handleChangeLimit,
     handleSearch,
     handleClearSearch,
-
     setUrlExplore,
     currentCategory,
     currentIsFeatured,

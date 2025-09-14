@@ -19,7 +19,12 @@ const Home = () => {
   return (
     <div>
       <HomeSlider banners={dataBanners?.data} isLoadingBanners={isLoadingBanners} />
-      <HomeEventList title="Featured Events" events={dataFeaturedEvents?.data} isLoading={isLoadingFeaturedEvents} />
+      <HomeEventList
+        title="Featured Events"
+        events={dataFeaturedEvents?.data}
+        isLoading={isLoadingFeaturedEvents}
+        urlMore="/event/isFeatured=true"
+      />
       <Skeleton isLoaded={!isLoadingBanners} className="mb-16 h-[20vw] w-full rounded-2xl">
         <Image
           src={dataBanners && dataBanners?.data[1]?.image}
@@ -29,7 +34,12 @@ const Home = () => {
           className="h-[20vw] w-full rounded-2xl object-cover object-center"
         />
       </Skeleton>
-      <HomeEventList title="Latest Events" events={dataLatestEvents?.data} isLoading={isLoadingLatestEvents} />
+      <HomeEventList
+        title="Latest Events"
+        events={dataLatestEvents?.data}
+        isLoading={isLoadingLatestEvents}
+        urlMore="/event"
+      />
       <HomeCategoryList categories={dataCategories?.data} isLoading={isLoadingCategories} />
     </div>
   );

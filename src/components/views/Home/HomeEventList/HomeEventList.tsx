@@ -6,14 +6,15 @@ interface PropTypes {
   title: string;
   events: IEvent[];
   isLoading: boolean;
+  urlMore: string;
 }
 
-const HomeEventList = ({ title, events, isLoading }: PropTypes) => {
+const HomeEventList = ({ title, events, isLoading, urlMore = "/event" }: PropTypes) => {
   return (
     <section className="mb-16 ">
       <div className="mb-2 flex items-center justify-between px-6 lg:px-0">
         <h2 className="text-2xl font-bold text-danger">{title}</h2>
-        <Link href="/event" className="font-semibold text-foreground-500">
+        <Link href={urlMore} className="font-semibold text-foreground-500">
           See More
         </Link>
       </div>
@@ -27,12 +28,11 @@ const HomeEventList = ({ title, events, isLoading }: PropTypes) => {
               />
             ))
           : Array.from({ length: 4 }).map((_, index) => (
-              <></>
-              //   <CardEvent
-              //     key={`card-event-loading-${index}`}
-              //     isLoading={isLoading}
-              //     className="first:ml-6 last:mr-6 lg:first:ml-0 lg:last:mr-0"
-              //   />
+              <CardEvent
+                key={`card-event-loading-${index}`}
+                isLoading={isLoading}
+                className="first:ml-6 last:mr-6 lg:first:ml-0 lg:last:mr-0"
+              />
             ))}
       </div>
     </section>

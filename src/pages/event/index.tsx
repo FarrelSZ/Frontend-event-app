@@ -1,10 +1,12 @@
+import { useRouter } from "next/router";
 import LandingPageLayout from "@/components/layouts/LandingPageLayout";
-import Home from "@/components/views/Home";
+import Event from "@/components/views/Event";
 
 function HomePage() {
+  const router = useRouter();
   return (
     <LandingPageLayout title="Home">
-      <Home />
+      <Event />
     </LandingPageLayout>
   );
 }

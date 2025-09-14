@@ -9,7 +9,7 @@ const BUTTON_ITEMS = [
   {
     label: "Register",
     href: "/auth/register",
-    variant: "bordered  ",
+    variant: "bordered",
   },
   {
     label: "Login",

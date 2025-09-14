@@ -14,9 +14,12 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Link,
+  Listbox,
+  ListboxItem,
+  Spinner,
 } from "@heroui/react";
 import Image from "next/image";
-import Link from "next/link";
 import { BUTTON_ITEMS, NAV_ITEMS } from "../LandingPageLayout.constant";
 import { cn } from "@/utils/cn";
 import { useRouter } from "next/router";
@@ -24,58 +27,92 @@ import { CiSearch } from "react-icons/ci";
 import { signOut, useSession } from "next-auth/react";
 import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavbar";
 import { Fragment } from "react";
+import { IEvent } from "@/types/Event";
 
 const LandingPageLayoutNavbar = () => {
   const router = useRouter();
   const session = useSession();
-  const { dataProfile } = useLandingPageLayoutNavbar();
+  const {
+    dataProfile,
+    dataEventsSearch,
+    isLoadingEventsSearch,
+    isRefetchingEventsSearch,
+    handleSearch,
+    search,
+    setSearch,
+  } = useLandingPageLayoutNavbar();
 
   return (
     <Navbar maxWidth="full" isBordered isBlurred={false} shouldHideOnScroll>
-      <NavbarBrand as={Link} href="/">
-        <Image src="/images/general/logo.svg" width={100} height={50} alt="logo" className="cursor-pointer" />
-      </NavbarBrand>
-      <NavbarContent className="hidden  lg:flex gap-4" justify="center">
-        {NAV_ITEMS.map((item) => (
-          <NavbarItem
-            key={`nav-${item.label}`}
-            as={Link}
-            href={item.href}
-            className={cn("font-medium text-default-700 hover:text-danger", {
-              "font-bold text-danger": router.pathname === item.href,
-            })}
-          >
-            {item.label}
-          </NavbarItem>
-        ))}
-      </NavbarContent>
+      <div className="flex items-center gap-8">
+        <NavbarBrand as={Link} href="/">
+          <Image src="/images/general/logo.svg" alt="logo" width={100} height={50} className="cursor-pointer" />
+        </NavbarBrand>
+        <NavbarContent className="hidden lg:flex">
+          {NAV_ITEMS.map((item) => (
+            <NavbarItem
+              key={`nav-${item.label}`}
+              as={Link}
+              href={item.href}
+              className={cn("font-medium text-default-700 hover:text-danger", {
+                "font-bold text-danger-500": router.pathname === item.href,
+              })}
+            >
+              {item.label}
+            </NavbarItem>
+          ))}
+        </NavbarContent>
+      </div>
       <NavbarContent justify="end">
         <NavbarMenuToggle className="lg:hidden" />
-        <NavbarItem className="hidden lg:flex lg:relative">
+
+        <NavbarItem className="hidden lg:relative lg:flex">
           <Input
             isClearable
             className="w-[300px]"
             placeholder="Search Event"
             startContent={<CiSearch />}
-            onClear={() => {}}
-            onChange={() => {}}
+            onClear={() => setSearch("")}
+            onChange={handleSearch}
           />
+          {search !== "" && (
+            <Listbox
+              items={dataEventsSearch?.data || []}
+              className="absolute right-0 top-12 rounded-xl border bg-white"
+            >
+              {!isRefetchingEventsSearch && !isLoadingEventsSearch ? (
+                (item: IEvent) => (
+                  <ListboxItem key={item._id} href={`/event/${item.slug}`}>
+                    <div className="flex items-center gap-2">
+                      <Image
+                        src={`${item.banner}`}
+                        alt={`${item.name}`}
+                        className="w-2/5 rounded-md"
+                        width={100}
+                        height={40}
+                      />
+                      <p className="line-clamp-2 w-3/5 text-wrap">{item.name}</p>
+                    </div>
+                  </ListboxItem>
+                )
+              ) : (
+                <ListboxItem key="loading">
+                  <Spinner color="danger" size="sm" />
+                </ListboxItem>
+              )}
+            </Listbox>
+          )}
         </NavbarItem>
         {session.status === "authenticated" ? (
           <NavbarItem className="hidden lg:block">
             <Dropdown>
               <DropdownTrigger>
-                <Avatar
-                  src={dataProfile?.profilePicture}
-                  className="cursor-pointer"
-                  showFallback
-                  name={dataProfile?.fullName}
-                />
+                <Avatar src={dataProfile?.profilePicture} className="cursor-pointer" showFallback />
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem
-                  key="Admin"
-                  href="/admin/dashboard"
+                  key="admin"
+                  href="/admin/event"
                   className={cn({
                     hidden: dataProfile?.role !== "admin",
                   })}
@@ -86,16 +123,16 @@ const LandingPageLayoutNavbar = () => {
                   Profile
                 </DropdownItem>
                 <DropdownItem key="signout" onPress={() => signOut()}>
-                  Logout
+                  Log Out
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>
         ) : (
-          <div className="hidden lg:gap-4 lg:flex">
+          <div className="hidden lg:flex lg:gap-4">
             {BUTTON_ITEMS.map((item) => (
-              <NavbarItem key={`nav-${item.label}`}>
-                <Button as={Link} href={item.href} variant={item.variant as ButtonProps["variant"]} color="danger">
+              <NavbarItem key={`button-${item.label}`}>
+                <Button as={Link} color="danger" href={item.href} variant={item.variant as ButtonProps["variant"]}>
                   {item.label}
                 </Button>
               </NavbarItem>
@@ -105,23 +142,21 @@ const LandingPageLayoutNavbar = () => {
 
         <NavbarMenu className="gap-4">
           {NAV_ITEMS.map((item) => (
-            <NavbarMenuItem
-              key={`nav-${item.label}`}
-              as={Link}
-              href={item.href}
-              className={cn("font-medium text-default-700 hover:text-danger", {
-                "font-bold text-danger": router.pathname === item.href,
-              })}
-            >
-              <Link href={item.href}>{item.label}</Link>
+            <NavbarMenuItem key={`nav-${item.label}`}>
+              <Link
+                href={item.href}
+                className={cn("font-medium text-default-700 hover:text-danger", {
+                  "font-bold text-danger": router.pathname === item.href,
+                })}
+              >
+                {item.label}
+              </Link>
             </NavbarMenuItem>
           ))}
           {session.status === "authenticated" ? (
             <Fragment>
               <NavbarMenuItem
-                as={Link}
-                href="/admin/dashboard"
-                className={cn("font-medium text-default-700 hover:text-danger", {
+                className={cn({
                   hidden: dataProfile?.role !== "admin",
                 })}
               >
@@ -129,31 +164,28 @@ const LandingPageLayoutNavbar = () => {
                   Admin
                 </Link>
               </NavbarMenuItem>
-              <NavbarMenuItem
-                as={Link}
-                href="/member/profile"
-                className="font-medium text-default-700 hover:text-danger"
-              >
+              <NavbarMenuItem>
                 <Link className="font-medium text-default-700 hover:text-danger" href="/member/profile">
                   Profile
                 </Link>
               </NavbarMenuItem>
               <NavbarMenuItem>
-                <Button onPress={() => signOut()} color="danger" className="mt-2 w-full " variant="bordered" size="lg">
-                  Logout
+                <Button color="danger" onPress={() => signOut()} className="mt-2 w-full" variant="bordered" size="md">
+                  Log Out
                 </Button>
               </NavbarMenuItem>
             </Fragment>
           ) : (
             <Fragment>
               {BUTTON_ITEMS.map((item) => (
-                <NavbarMenuItem key={`nav-${item.label}`}>
+                <NavbarMenuItem key={`button-${item.label}`}>
                   <Button
                     as={Link}
-                    href={item.href}
-                    variant={item.variant as ButtonProps["variant"]}
                     color="danger"
+                    href={item.href}
                     fullWidth
+                    variant={item.variant as ButtonProps["variant"]}
+                    size="md"
                   >
                     {item.label}
                   </Button>
