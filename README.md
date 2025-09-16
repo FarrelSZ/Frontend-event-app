@@ -1,5 +1,15 @@
 # Frontend-event-app
 
+### 🎨 Frontend  
+- **React JS 19** → Frontend Library  
+- **Next JS 15** → React Framework  
+- **Tailwind CSS** → CSS Framework  
+- **Next UI / Hero UI** → UI Component Library  
+- **Tanstack React Query + Axios** → Data Fetching & API Handling  
+- **React Hook Form + Yup** → Form Handling & Data Validation  
+- **Next Auth** → Authentication Library  
+- **Midtrans** → Payment Gateway 
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
 ## Getting Started
