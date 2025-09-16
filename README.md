@@ -72,13 +72,11 @@ bun dev
 ```
 ---
 
-Untuk yang frontend, github nya ada di sini: https://github.com/FarrelSZ/Frontend-event-app
+Untuk yang backend, github nya ada di sini: [https://github.com/FarrelSZ/Frontend-event-app](https://github.com/FarrelSZ/backend-event)
 
 ---
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
-
-```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
