@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface PropTypes {
-  categories: ICategory[];
+  categories?: ICategory[];
   isLoading: boolean;
 }
 

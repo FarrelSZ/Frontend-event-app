@@ -114,7 +114,6 @@ const AddTicketModal = ({ isOpen, onClose, onOpenChange, refetchTicket }: PropTy
                   )}
                 />
               </div>
-              <p className="text-sm font-bold">Icon</p>
             </div>
           </ModalBody>
           <ModalFooter>
