@@ -24,8 +24,18 @@ const Transaction = () => {
 
       switch (columnKey) {
         case "status":
+          let chipColor = "default";
+          const status = cellValue?.toString().toLowerCase();
+
+          if (status === "completed") {
+            chipColor = "success";
+          } else if (status === "pending") {
+            chipColor = "warning";
+          } else if (status === "cancelled") {
+            chipColor = "danger";
+          }
           return (
-            <Chip color={cellValue ? "success" : "warning"} size="sm" variant="flat">
+            <Chip color={chipColor as "default"} size="sm" variant="flat">
               {cellValue as ReactNode}
             </Chip>
           );
