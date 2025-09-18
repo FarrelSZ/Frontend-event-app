@@ -1,11 +1,66 @@
-# Frontend-event-app
+# 📅 EventApp  
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+EventApp adalah aplikasi manajemen event fullstack yang saya buat sebagai bagian dari course online.  
+Aplikasi ini membantu pengguna (admin & member) untuk membuat, mengelola, dan mengikuti event dengan sistem tiket digital dan pembayaran online.  
 
-## Getting Started
+---
 
-First, run the development server:
+## 🚀 Fitur Utama  
 
+### 👨‍💻 Admin  
+- 🗓️ **CRUD Event** → buat, edit, hapus, dan kelola event  
+- 🏷️ **CRUD Kategori Event** → atur kategori event  
+- 🎟️ **CRUD Ticket** → kelola tiket (harga, kuota, status)  
+- 🖼️ **CRUD Banner** → pasang banner promosi event  
+
+### 🙋 Member  
+- 🔍 **Lihat Event** → telusuri event berdasarkan kategori atau tanggal  
+- 🎟️ **Beli Tiket** → pesan tiket dengan integrasi pembayaran Midtrans  
+- 📂 **Riwayat Pemesanan** → cek daftar tiket yang sudah dibeli  
+
+---
+
+## 🎯 Tujuan Project
+
+### Project ini dibuat sebagai:
+- 💡 Latihan fullstack dari course online
+- 🏗️ Portfolio pribadi untuk menunjukkan skill modern web dev
+- 📚 Pembelajaran dalam membangun aplikasi web modern dan mempelajari teknologi tersebut
+
+---
+
+## 🖼️ Preview  
+(Sisipkan screenshot di sini, contoh:)  
+![EventApp Screenshot](./screenshot.png)  
+
+---
+
+## 🛠️ Tech Stack   
+
+### 🎨 Frontend  
+- **React JS 19** → Frontend Library  
+- **Next JS 15** → React Framework  
+- **Tailwind CSS** → CSS Framework  
+- **Next UI / Hero UI** → UI Component Library  
+- **Tanstack React Query + Axios** → Data Fetching & API Handling  
+- **React Hook Form + Yup** → Form Handling & Data Validation  
+- **Next Auth** → Authentication Library  
+- **Midtrans** → Payment Gateway  
+
+---
+
+## ⚙️ Cara Menjalankan  
+
+### 1. Clone repository  
+```bash
+git clone https://github.com/username/eventapp.git
+cd eventapp
+```
+### 2. Install Dependencies 
+```bash
+npm install
+```
+### 3. Jalankan server
 ```bash
 npm run dev
 # or
@@ -15,7 +70,13 @@ pnpm dev
 # or
 bun dev
 ```
+---
 
+Untuk yang backend, github nya ada di sini: [https://github.com/FarrelSZ/Frontend-event-app](https://github.com/FarrelSZ/backend-event)
+
+---
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
