@@ -1,10 +1,11 @@
 import { IBanner } from "@/types/Banner";
-import { Skeleton } from "@heroui/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+
+import { Skeleton } from "@heroui/react";
 import Image from "next/image";
-import { Autoplay, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 interface PropTypes {
   banners: IBanner[];
@@ -13,10 +14,13 @@ interface PropTypes {
 
 const HomeSlider = ({ banners, isLoadingBanners }: PropTypes) => {
   return (
-    <div className="mx-6 mb-6 h-[25vw] lg:mx-0 lg:mb-16 bg-blue">
+    <div className="mx-6 mb-6 h-[25vw] lg:mx-0 lg:mb-16">
       {!isLoadingBanners ? (
         <Swiper
-          pagination={{ dynamicBullets: true, clickable: true }}
+          pagination={{
+            dynamicBullets: true,
+            clickable: true,
+          }}
           spaceBetween={30}
           loop
           modules={[Autoplay, Pagination]}
@@ -26,14 +30,14 @@ const HomeSlider = ({ banners, isLoadingBanners }: PropTypes) => {
             disableOnInteraction: false,
           }}
         >
-          {banners.map((banner: IBanner) => (
+          {banners?.map((banner: IBanner) => (
             <SwiperSlide key={banner._id}>
               <Image
                 src={`${banner.image}`}
                 alt={`${banner.title}`}
+                className="h-[80%] w-full rounded-2xl object-cover lg:h-[90%]"
                 width={1920}
                 height={800}
-                className="h-[80%] w-full rounded-2xl object-cover lg:h-[90%]"
               />
             </SwiperSlide>
           ))}
