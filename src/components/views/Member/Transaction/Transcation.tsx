@@ -44,7 +44,7 @@ const Transaction = () => {
         case "actions":
           return (
             <DropdownAction
-              onPressButtonDetail={() => push(`/member/transaction/${transaction._id}`)}
+              onPressButtonDetail={() => push(`/member/transaction/${transaction?.orderId}`)}
               hideButtonDelete
             />
           );
